@@ -23,7 +23,6 @@ public class BugCatchRunner {
 
     @AfterClass
     public static void teardown(){
-
         driver.quit();
     }
 }

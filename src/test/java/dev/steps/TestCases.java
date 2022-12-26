@@ -7,10 +7,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.awt.*;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import static org.junit.Assert.*;
 
@@ -87,25 +90,16 @@ public class TestCases extends TestContext {
     }
     @Then("The Modal Should be closed")
     public void the_modal_should_be_closed() throws AWTException {
-        Set<String> windowids = driver.getWindowHandles();
-        String mainWindowId=windowids.iterator().next();
-        String popupWindowId=windowids.iterator().next();
-        driver.switchTo().window(mainWindowId);
-
-
         System.out.println(driver.getCurrentUrl());
+        driver.navigate().back();
     }
 
 //     Scenario Edit Existing Case
 
     @When("The Tester clicks on edit within the modal")
     public void the_tester_clicks_on_edit_within_the_modal() throws InterruptedException {
-        driver.navigate().back();
-        driver.findElement(By
-                .xpath("//div[1]/table/tbody/tr[last()]/td[4]/button"))
-                .click();
+        driver.findElement(By.xpath("//div[1]/table/tbody/tr[last()]/td[4]/button")).click();
         driver.findElement(By.xpath("//div[3]//div/button[2]/a")).click();
-
     }
     @Then("The Tester should be on the case editor for that case")
     public void the_tester_should_be_on_the_case_editor_page(){

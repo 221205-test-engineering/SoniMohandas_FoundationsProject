@@ -51,11 +51,11 @@ public class Navigation {
     public void the_manager_clicks_on_links(String link){
         driver.findElement(By.linkText(link)).click();
     }
-    @Then("The title of page should be different {string}")
-    public void the_title_of_the_page_should_be(String title){
-        String getTitle = driver.findElement(By.tagName("h1")).getText();
-        assertNotEquals(title, getTitle);
-    }
+//    @Then("The title of page should be different {string}")
+//    public void the_title_of_the_page_should_be(String title){
+//        String getTitle = driver.findElement(By.tagName("h1")).getText();
+//        assertNotEquals(title, getTitle);
+//    }
     @Then("The title of page should be {string}")
     public void the_title_of_page_should_be(String string) {
         String getTitle = driver.findElement(By.tagName("h1")).getText();

@@ -6,10 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.eo.Se;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
@@ -45,7 +42,7 @@ public class MatrixManager extends TestContext {
                 .xpath("//div/fieldset/table/tbody/tr/td[2]/select")));
         priority.getOptions().get(1);
         driver.findElement(By
-                .xpath("//div/fieldset/table/tbody/tr/td[3]/input"))
+                        .xpath("//div/fieldset/table/tbody/tr/td[3]/input"))
                 .sendKeys("Do it in two days");
         driver.findElement(By.xpath("//div/fieldset/button")).click(); // Adds requirements to the matrix
     }
@@ -70,14 +67,17 @@ public class MatrixManager extends TestContext {
     @Given("The manager has selected the matrix")
     public void the_manager_selected_the_matrix(){
         driver.manage().window().maximize();
-        driver.findElement(By.xpath("//div/ul/li[last()]/div/span/button")).click();
+        new WebDriverWait(driver, Duration.ofSeconds(20))
+                .until(ExpectedConditions.visibilityOfElementLocated(By
+                        .xpath("//div/ul/li[last()]/div/span/button"))).click();
+//        driver.findElement(By.xpath("//div/ul/li[last()]/div/span/button")).click();
         driver.findElement(By.xpath("//div/ul/li[last()]//div/table/tbody/tr/td[6]/button")).click();
     }
     @When("The manager adds a defect")
     public void the_manager_adds_a_defect(){
         driver.findElement(By.xpath("//div/ul/li[last()]//div/ul[2]/li/input")).clear();
         driver.findElement(By
-                .xpath("//div/ul/li[last()]//div/ul[2]/li/input"))
+                        .xpath("//div/ul/li[last()]//div/ul[2]/li/input"))
                 .sendKeys("901");
     }
     @When("The manager confirms their changes")
@@ -93,16 +93,11 @@ public class MatrixManager extends TestContext {
     }
     @When("The manager adds a test case")
     public void the_manager_adds_test_case(){
-//        Select list = new Select(driver.findElement(By.id("//*[@id=testlist]")));
-
         WebElement input = driver.findElement(By.xpath("//div/ul/li[last()]//div/ul[1]/li[2]/input"));
         input.clear();
         WebElement value = driver.findElement(By.xpath("//div/ul/li[last()]//div/datalist[1]/option[1]"));
         String text = value.getAttribute("innerHTML");
         input.sendKeys(text);
 
-//        driver.findElement(By
-//                .xpath("//div/ul/li[last()]//div/ul[1]/li/button"))
-//                .sendKeys("801");
     }
 }
