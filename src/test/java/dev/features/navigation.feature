@@ -22,14 +22,19 @@ Feature: Navigation
     Scenario Outline: All Links Viable
         When The manager clicks on "<link>"
         Then The title of page should be "<title>"
+        Examples:
+            |  link         | title                |
+            | Report a Defect| Defect Reporter     |
+            | Defect Overview| Defect Overview     |
+
+    Scenario Outline: All Links Viable
+        When The manager clicks on "<link>"
         Then The title of page should be different "<title>"
 
-    Examples:
-        | link           | title               |
-        | Matrices       |                     |
-        | Test Cases     | Test Case Overivew  |
-        | Report a Defect| Defect Reporter     |
-        | Defect Overview| Defect Overview     |
+        Examples:
+            | link           | title               |
+            | Matrices       |                     |
+            | Test Cases     | Test Case Overivew  |
 
 
 

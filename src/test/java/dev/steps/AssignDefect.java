@@ -7,7 +7,10 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,20 +27,19 @@ public class AssignDefect {
     }
     @Given("The manager is on the home page")
     public void the_manager_is_on_the_home_page() throws InterruptedException {
-        String title = driver.findElement(By.xpath("/html/body/div/h1")).getText();
-        System.out.println(title);
+        String title = new WebDriverWait(driver, Duration
+                .ofSeconds(20))
+                .until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("/html/body/div/h1")))
+                .getText();
         assertEquals("Manager Home", title);
         System.out.println(title);
-        Thread.sleep(3000);
-
     }
     @Then("The manager should see pending defects")
     public void the_manager_should_see_pending_defects() throws InterruptedException {
         String defectId = driver.findElement(By.xpath("/html/body/div/table/tbody/tr[1]/td[1]")).getText();
         String defect = driver.findElement(By.xpath("/html/body/div/table/tbody/tr[1]/td[2]")).getText();
         System.out.println(defectId+defect);
-        Thread.sleep(2000);
-
     }
     @When("The manager clicks on the select button for a defect")
     public void the_manager_clicks_on_the_select_button_for_a_defect(){
@@ -46,8 +48,8 @@ public class AssignDefect {
     @Then("The defect description should appear in bold")
     public void the_defect_description_should_appear_in_bold(){
         String text = driver.findElement(By
-                .xpath("/html/body/div/div/h4")).getCssValue("font-weight");
-
+                .xpath("/html/body/div/div/h4"))
+                .getCssValue("font-weight");
         assertTrue(Integer.parseInt(text)>=700);
         if(Integer.parseInt(text)>=700){
             System.out.println("Defect description is in bold letters");
