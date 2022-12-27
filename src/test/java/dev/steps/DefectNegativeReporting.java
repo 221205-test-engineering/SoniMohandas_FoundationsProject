@@ -6,17 +6,14 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import dev.testcontext.TestContext;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class DefectNegativeReporting extends TestContext{
+public class DefectNegativeReporting{
     public static WebDriver driver = BugCatchRunner.driver;
     @Given("The employee is on the Defect Reporter Page")
     public void the_employee_is_on_the_defect_reporter_page(){
@@ -24,7 +21,7 @@ public class DefectNegativeReporting extends TestContext{
         driver.findElement(By.xpath("//input[@name='username']")).sendKeys("ryeGuy");
         driver.findElement(By.xpath("//input[@name='pass']")).sendKeys("coolbeans");
         driver.findElement(By.tagName("button")).click();
-        driver.findElement(By.xpath("/html/body/div[1]/nav/a[3]")).click();
+        driver.findElement(By.xpath("//div[1]/nav/a[3]")).click();
     }
     @When("The employee selects todays date")
     public void the_employee_selects_todays_date(){
@@ -61,6 +58,7 @@ public class DefectNegativeReporting extends TestContext{
     @Then("No confirmation dialog appears")
     public void no_confirmation_dialog_appears(){
         String alertDialog = driver.switchTo().alert().getText();
+        assertNotEquals(alertDialog, "No confirmation");
         System.out.println(alertDialog);
         driver.switchTo().alert().accept();
     }

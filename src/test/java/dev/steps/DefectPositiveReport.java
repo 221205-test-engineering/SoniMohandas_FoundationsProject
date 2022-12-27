@@ -1,6 +1,5 @@
 package dev.steps;
 import dev.runners.BugCatchRunner;
-import dev.testcontext.TestContext;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
@@ -12,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class DefectPositiveReport extends TestContext{
+public class DefectPositiveReport{
     public static WebDriver driver = BugCatchRunner.driver;
     @When("The employee selects {string} priority")
     public void the_employee_selects_medium_priority(String priority){

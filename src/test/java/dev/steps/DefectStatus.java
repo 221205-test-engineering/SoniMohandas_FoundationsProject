@@ -7,19 +7,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import dev.testcontext.TestContext;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class DefectStatus extends TestContext{
+public class DefectStatus{
     public static WebDriver driver = BugCatchRunner.driver;
     Actions action = new Actions(driver);
 //    WebElement password;
     @Given("The tester is on the Home Page")
     public void the_tester_is_on_the_home_page(){
-        driver.get(getPage());
+        driver.get("https://bugcatcher-dan.coe.revaturelabs.com/?dev=13");
         driver.findElement(By.xpath("//input[@name='username']")).sendKeys("ryeGuy");
         driver.findElement(By.xpath("//input[@name='pass']")).sendKeys("coolbeans");
         driver.findElement(By.tagName("button")).click();

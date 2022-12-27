@@ -30,15 +30,15 @@ public class AssignDefect {
         String title = new WebDriverWait(driver, Duration
                 .ofSeconds(20))
                 .until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("/html/body/div/h1")))
+                .visibilityOfElementLocated(By.xpath("//div/h1")))
                 .getText();
         assertEquals("Manager Home", title);
         System.out.println(title);
     }
     @Then("The manager should see pending defects")
     public void the_manager_should_see_pending_defects() throws InterruptedException {
-        String defectId = driver.findElement(By.xpath("/html/body/div/table/tbody/tr[1]/td[1]")).getText();
-        String defect = driver.findElement(By.xpath("/html/body/div/table/tbody/tr[1]/td[2]")).getText();
+        String defectId = driver.findElement(By.xpath("//div/table/tbody/tr[1]/td[1]")).getText();
+        String defect = driver.findElement(By.xpath("//div/table/tbody/tr[1]/td[2]")).getText();
         System.out.println(defectId+defect);
     }
     @When("The manager clicks on the select button for a defect")
@@ -48,7 +48,7 @@ public class AssignDefect {
     @Then("The defect description should appear in bold")
     public void the_defect_description_should_appear_in_bold(){
         String text = driver.findElement(By
-                .xpath("/html/body/div/div/h4"))
+                .xpath("//div/h4"))
                 .getCssValue("font-weight");
         assertTrue(Integer.parseInt(text)>=700);
         if(Integer.parseInt(text)>=700){

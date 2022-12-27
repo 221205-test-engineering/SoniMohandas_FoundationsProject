@@ -1,23 +1,20 @@
 package dev.steps;
 
 import dev.runners.BugCatchRunner;
-import dev.testcontext.TestContext;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.awt.*;
+
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Set;
+
 import static org.junit.Assert.*;
 
-public class TestCases extends TestContext {
+public class TestCases{
     public static WebDriver driver = BugCatchRunner.driver;
     public static String caseId;
 
@@ -27,7 +24,7 @@ public class TestCases extends TestContext {
     //Scenario Add A Test Case
     @Given("The tester is on the test case dashboard")
     public void the_tester_is_on_the_test_case_dashboard(){
-        driver.get(getPage());
+        driver.get("https://bugcatcher-dan.coe.revaturelabs.com/?dev=13");
         driver.findElement(By.xpath("//input[@name='username']")).sendKeys("ryeGuy");
         driver.findElement(By.xpath("//input[@name='pass']")).sendKeys("coolbeans");
         driver.findElement(By.tagName("button")).click();
@@ -89,9 +86,21 @@ public class TestCases extends TestContext {
         driver.findElement(By.xpath("//div[3]//div/button[1]")).click();
     }
     @Then("The Modal Should be closed")
-    public void the_modal_should_be_closed() throws AWTException {
-        System.out.println(driver.getCurrentUrl());
-        driver.navigate().back();
+    public void the_modal_should_be_closed(){
+        String mainhndl = driver.getWindowHandle();
+
+//Code that brings up the popup
+        Set<String> handles = driver.getWindowHandles();
+
+        for(String handle: handles){
+            if(!mainhndl.equals(handle)){
+                WebDriver popup = driver.switchTo().window(handle);
+                popup.close();
+            }
+        }
+
+//        driver.navigate().back();
+//        System.out.println(driver.getCurrentUrl());
     }
 
 //     Scenario Edit Existing Case

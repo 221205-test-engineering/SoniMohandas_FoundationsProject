@@ -1,28 +1,20 @@
 package dev.steps;
 
 import dev.runners.BugCatchRunner;
-import dev.testcontext.TestContext;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.eo.Se;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class MatrixManager extends TestContext {
+public class MatrixManager{
     public static WebDriver driver = BugCatchRunner.driver;
 
     @When("The manager chooses to create a new matrix")
     public void the_manager_chooses_to_create_new_matrix(){
-        driver.get(getPage());
+        driver.get("https://bugcatcher-dan.coe.revaturelabs.com/?dev=13");
         driver.findElement(By
                 .xpath("//input[@name='username']")).sendKeys("g8tor");
         driver.findElement(By
@@ -66,11 +58,7 @@ public class MatrixManager extends TestContext {
     }
     @Given("The manager has selected the matrix")
     public void the_manager_selected_the_matrix(){
-        driver.manage().window().maximize();
-        new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(ExpectedConditions.visibilityOfElementLocated(By
-                        .xpath("//div/ul/li[last()]/div/span/button"))).click();
-//        driver.findElement(By.xpath("//div/ul/li[last()]/div/span/button")).click();
+        driver.findElement(By.xpath("//div/ul/li[last()]/div/span/button")).click();
         driver.findElement(By.xpath("//div/ul/li[last()]//div/table/tbody/tr/td[6]/button")).click();
     }
     @When("The manager adds a defect")
