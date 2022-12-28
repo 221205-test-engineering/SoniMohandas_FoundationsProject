@@ -57,7 +57,7 @@ public class TestCases{
         String exec = new WebDriverWait(driver, Duration
               .ofSeconds(10)).until(ExpectedConditions
               .visibilityOfElementLocated(By
-              .xpath("//div[1]/table/tbody/tr[last()]/td[3]")))
+              .xpath("//tbody/tr[last()]/td[3]")))
               .getText();
             System.out.println(exec);
             assertEquals(exec, "UNEXECUTED");
@@ -66,7 +66,7 @@ public class TestCases{
     public void the_tester_presses_on_details(){
         WebElement testDetails = new WebDriverWait(driver, Duration.ofSeconds(15))
                         .until(ExpectedConditions.elementToBeClickable(By
-                        .xpath("//div[1]/table/tbody/tr[last()]/td[4]/button")));
+                        .xpath("//tbody/tr[last()]/td[4]/button")));
         details = testDetails;
                 testDetails.click();
     }
@@ -158,9 +158,9 @@ public class TestCases{
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-        boolean testCase = alert.getText().contains("Test Case has been Saved");
+        boolean testCase = alert.getText().contains("Test Case has been Saved"); // Saved in boolean variable
         System.out.println(testCase);
-        assertTrue(testCase);
+        assertTrue(testCase);  // Checked whether it is true of false
         driver.switchTo().alert().accept();
 
     }
@@ -171,7 +171,7 @@ public class TestCases{
     public void the_tester_selects_cavalier89_for_performed_from_drop_down(){
         driver.getCurrentUrl();
         Select selectTester = new Select(driver.findElement(By.xpath("//div/fieldset[1]/select")));
-        selectTester.selectByVisibleText("cavalier89");
+        selectTester.selectByVisibleText("cavalier89"); // Selenium Select and visibility text function used
 
     }
     @When("The tester selects FLAKY for test result from drop down")
@@ -183,11 +183,13 @@ public class TestCases{
     public void the_tester_clicks_on_the_reset_button(){
         String desc = driver.findElement(By.xpath("//div/fieldset[1]/textarea[1]")).getText();
         description = desc;
+        driver.findElement(By.xpath("//div/fieldset[1]/textarea[1]")).sendKeys("Hello");
         driver.findElement(By.xpath("//button[text()='Reset']")).click();
     }
     @Then("The fields should be populated to their old values")
     public void the_fields_should_be_populated_to_their_old_values(){
         String text = driver.findElement(By.xpath("//div/fieldset[1]/textarea[1]")).getText();
-        assertEquals(description, text);
+        assertEquals(description, text);  // Before reset text was saved in a String variable and after reset
+                                            // values were compared.
     }
 }

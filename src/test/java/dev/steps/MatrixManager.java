@@ -88,7 +88,7 @@ public class MatrixManager{
     @When("The manager adds a test case")
     public void the_manager_adds_test_case(){
         WebElement input = new WebDriverWait(driver, Duration
-                .ofSeconds(10)).until(ExpectedConditions
+                .ofSeconds(20)).until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//div[@class='Collapsible__contentInner']/ul[1]/li[last()]/input")));
         input.clear();
         input.sendKeys("802");
