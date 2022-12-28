@@ -36,13 +36,15 @@ public class DefectStatus{
     @When("The tester changes the defect to any status")
     public void the_tester_changes_the_defect_to_any_status() throws InterruptedException {
         // Actions chain is built to click where the mouse currently is, it works for collapsible text content
-        (new Actions(driver))
-                .moveToElement(driver.findElement(By
-                .xpath("//div[1]/ul/li[1]//div[1]/span/button")))
-                .click()
-                .build()
-                .perform();
-        Thread.sleep(2000);
+        driver.findElement(By.xpath("//[@id='collapsible-trigger-1672201235124']/p/b[text()='Pending']")).click();
+        driver.findElement(By.xpath("//[@id='collapsible-trigger-1672201235126']/button[text()='Change Status']")).click();
+//        (new Actions(driver))
+//                .moveToElement(driver.findElement(By
+//                .xpath("//button[text()='Change Status']")))
+//                .click()
+//                .build()
+//                .perform();
+
     }
     @Then("The tester should see the defect has a different status")
     public void the_tester_should_see_the_defect_has_a_different_status(){

@@ -15,7 +15,7 @@ public class LoginPositiveImpn{
 
     @Given("The employee is on the login page")
     public void the_employee_is_on_the_login_page() throws Throwable{
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://bugcatcher-dan.coe.revaturelabs.com/?dev=13");
         System.out.println("I am on the login page");
     }

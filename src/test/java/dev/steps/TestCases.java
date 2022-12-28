@@ -2,9 +2,7 @@ package dev.steps;
 
 import dev.runners.BugCatchRunner;
 import io.cucumber.java.en.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -19,7 +17,9 @@ public class TestCases{
     public static String caseId;
 
     public static WebElement details;
+    public static WebElement closed;
     public static String description;
+
 
     //Scenario Add A Test Case
     @Given("The tester is on the test case dashboard")
@@ -47,17 +47,20 @@ public class TestCases{
     @Then("The test case should appear at the bottom of the table")
     public void the_test_case_should_appear_at_the_bottom_of_the_table(){
         String lastRow = driver.findElement(By
-                .xpath("//div[1]/table/tbody/tr[last()]"))
+                .xpath("//div[1]/table/tbody/tr[last()]/td[1]"))
                 .getText();
+        assertNotNull(lastRow);
         System.out.println("Last added row: "+lastRow);
     }
     @Then("The test case result should say UNEXECUTED")
-    public void the_test_case_result_should_say_unexecuted(){
-        String exec = driver.findElement(By
-                .xpath("//div[1]/table/tbody/tr[last()]/td[3]"))
-                .getText();
-        System.out.println(exec);
-        assertEquals(exec, "UNEXECUTED");
+    public void the_test_case_result_should_say_unexecuted() {
+        String exec = new WebDriverWait(driver, Duration
+              .ofSeconds(10)).until(ExpectedConditions
+              .visibilityOfElementLocated(By
+              .xpath("//div[1]/table/tbody/tr[last()]/td[3]")))
+              .getText();
+            System.out.println(exec);
+            assertEquals(exec, "UNEXECUTED");
     }
     @When("The tester presses on details")
     public void the_tester_presses_on_details(){
@@ -83,31 +86,20 @@ public class TestCases{
     }
     @When("The tester presses the close button")
     public void the_tester_presses_the_close_button(){
-        driver.findElement(By.xpath("//div[3]//div/button[1]")).click();
+        String closed = driver.findElement(By.xpath("//button[text()='Close']")).getText();
+        driver.findElement(By.xpath("//button[text()='Close']")).click();
+
     }
     @Then("The Modal Should be closed")
-    public void the_modal_should_be_closed(){
-        String mainhndl = driver.getWindowHandle();
-
-//Code that brings up the popup
-        Set<String> handles = driver.getWindowHandles();
-
-        for(String handle: handles){
-            if(!mainhndl.equals(handle)){
-                WebDriver popup = driver.switchTo().window(handle);
-                popup.close();
-            }
-        }
-
-//        driver.navigate().back();
-//        System.out.println(driver.getCurrentUrl());
+    public void the_modal_should_be_closed() throws InterruptedException {
+        assertEquals(closed, null);
     }
 
 //     Scenario Edit Existing Case
 
     @When("The Tester clicks on edit within the modal")
     public void the_tester_clicks_on_edit_within_the_modal() throws InterruptedException {
-        driver.findElement(By.xpath("//div[1]/table/tbody/tr[last()]/td[4]/button")).click();
+//        driver.findElement(By.xpath("//div[1]/table/tbody/tr[last()]/td[4]/button")).click();
         driver.findElement(By.xpath("//div[3]//div/button[2]/a")).click();
     }
     @Then("The Tester should be on the case editor for that case")
@@ -136,12 +128,13 @@ public class TestCases{
     @When("The tester selects ryeGuy for performed from drop down")
     public void the_tester_selects_ryeGuy_for_performed_from_dropdown(){
         Select guy = new Select(driver.findElement(By.xpath("//div/fieldset[1]/select")));
-        System.out.println(guy.getAllSelectedOptions().get(1));
+        guy.selectByVisibleText("ryeGuy");
+        System.out.println(guy.getAllSelectedOptions().get(0));
     }
     @When("The tester selects FAIL for test result from drop down")
     public void the_tester_selects_fail_for_the_result_from_dropdown(){
         Select option = new Select(driver.findElement(By.xpath("//div/fieldset[2]/select")));
-        option.getAllSelectedOptions().get(1);
+        option.selectByVisibleText("FAIL");
     }
     @When("The tester types summary in the text area")
     public void the_tester_types_summary_in_the_textarea(String text){
@@ -149,7 +142,7 @@ public class TestCases{
     }
     @When("The tester clicks save on test case page")
     public void the_tester_clicks_save_on_test_case_page(){
-        driver.findElement(By.xpath("//div/button[2]")).click();
+        driver.findElement(By.xpath("//button[text()='Save']")).click();
     }
     @Then("A confirmation prompt should appear")
     public void a_confirmation_prompt_should_appear(){
@@ -161,10 +154,15 @@ public class TestCases{
         driver.switchTo().alert().accept();
     }
     @Then("An alert says the test case has been saved")
-    public void an_alert_says_the_test_case_has_been_saved(){
-        String saveConfirm = driver.switchTo().alert().getText();
-        assertEquals(saveConfirm, "Test Case has been Saved");
+    public void an_alert_says_the_test_case_has_been_saved() throws InterruptedException {
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        boolean testCase = alert.getText().contains("Test Case has been Saved");
+        System.out.println(testCase);
+        assertTrue(testCase);
         driver.switchTo().alert().accept();
+
     }
 
     // Scenario Reset Test Case
@@ -172,23 +170,24 @@ public class TestCases{
     @When("The tester selects cavalier89 for performed from drop down")
     public void the_tester_selects_cavalier89_for_performed_from_drop_down(){
         driver.getCurrentUrl();
-        Select caval = new Select(driver.findElement(By.xpath("//div/fieldset[1]/select")));
-        System.out.println(caval.getAllSelectedOptions().get(2));
+        Select selectTester = new Select(driver.findElement(By.xpath("//div/fieldset[1]/select")));
+        selectTester.selectByVisibleText("cavalier89");
+
     }
     @When("The tester selects FLAKY for test result from drop down")
     public void the_tester_selects_flaky_for_test_result_from_drop_down(){
         Select option = new Select(driver.findElement(By.xpath("//div/fieldset[2]/select")));
-        option.getAllSelectedOptions().get(2);
+        option.selectByVisibleText("FLAKY");
     }
     @When("The tester clicks on the reset button")
     public void the_tester_clicks_on_the_reset_button(){
-        String desc = driver.findElement(By.xpath("//div[3]//div/p[1]")).getText();
+        String desc = driver.findElement(By.xpath("//div/fieldset[1]/textarea[1]")).getText();
         description = desc;
-        driver.findElement(By.xpath("//div/button[1]")).click();
+        driver.findElement(By.xpath("//button[text()='Reset']")).click();
     }
     @Then("The fields should be populated to their old values")
     public void the_fields_should_be_populated_to_their_old_values(){
-        String text = driver.findElement(By.xpath("//div[3]//div/p[1]")).getText();
+        String text = driver.findElement(By.xpath("//div/fieldset[1]/textarea[1]")).getText();
         assertEquals(description, text);
     }
 }
