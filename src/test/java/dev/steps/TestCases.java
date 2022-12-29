@@ -57,7 +57,7 @@ public class TestCases{
         String exec = new WebDriverWait(driver, Duration
               .ofSeconds(10)).until(ExpectedConditions
               .visibilityOfElementLocated(By
-              .xpath("//tbody/tr[last()]/td[3]")))
+              .xpath("/div[1]/table/tbody/tr[last()]/td[3]")))
               .getText();
             System.out.println(exec);
             assertEquals(exec, "UNEXECUTED");
